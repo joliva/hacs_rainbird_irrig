@@ -1,6 +1,11 @@
 {
     "name": "Rainbird Irrigation",
+    "iot_class": ["Cloud Polling"],
     "hacs": "1.6.0",
     "homeassistant": "0.118.0",
-    "domains": ["sensor", "switch", "rainbird_irrig"]
+    "domains": [
+       "sensor", 
+       "switch", 
+       "rainbird_irrig"
+    ]
 }
