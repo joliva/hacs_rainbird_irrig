@@ -1,5 +1,6 @@
 {
     "name": "Rainbird Irrigation",
     "hacs": "1.6.0",
-    "homeassistant": "0.118.0"
+    "homeassistant": "0.118.0",
+    "domains": ["sensor", "switch", "rainbird_irrig"]
 }
