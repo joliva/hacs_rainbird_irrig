@@ -19,6 +19,7 @@ start_irrigation:
           min: 1
           max: 1440
           unit_of_measurement: "minutes"
+
 stop_irrigation:
   name: Stop irrigation
   description: Stop the irrigation
@@ -31,6 +32,7 @@ stop_irrigation:
         entity:
           integration: rainbird_irrig
           domain: switch
+
 set_rain_delay:
   name: Set rain delay
   description: Set how long automatic irrigation is turned off.
@@ -44,3 +46,4 @@ set_rain_delay:
           min: 0
           max: 14
           unit_of_measurement: "days"
+
