@@ -1,0 +1,9 @@
+{
+  "domain": "rainbird_irrig",
+  "name": "Rain Bird Irrigaiton",
+  "documentation": "https://www.home-assistant.io/integrations/rainbird",
+  "requirements": ["pyrainbird==0.4.3"],
+  "codeowners": ["@joliva"],
+  "iot_class": "local_polling",
+  "loggers": ["pyrainbird"]
+}
