@@ -16,7 +16,7 @@ from . import CONF_ZONES, DATA_RAINBIRD, DOMAIN, RAINBIRD_CONTROLLER
 ATTR_DURATION = "duration"
 
 SERVICE_START_IRRIGATION = "start_irrigation"
-SERVICE_TEST_ZONE = "test_irrigation"
+SERVICE_TEST_IRRIGATION = "test_irrigation"
 SERVICE_STOP_IRRIGATION = "stop_irrigation"
 SERVICE_SET_RAIN_DELAY = "set_rain_delay"
 
@@ -100,7 +100,7 @@ def setup_platform(
 
         for device in devices:
             if device.entity_id == entity_id:
-                device.test()
+                device.test_zone()
 
     hass.services.register(
         DOMAIN,
@@ -166,9 +166,9 @@ class RainBirdSwitch(SwitchEntity):
         ):
             self._state = True
 
-    def test(self, **kwargs):
+    def test_zone(self, **kwargs):
         """Turn the switch on."""
-        if self._rainbird.test_irrigation():
+        if self._rainbird.test_zone(int(self._zone)):
             self._state = True
 
     def turn_off(self, **kwargs):
