@@ -16,6 +16,7 @@ from . import CONF_ZONES, DATA_RAINBIRD, DOMAIN, RAINBIRD_CONTROLLER
 ATTR_DURATION = "duration"
 
 SERVICE_START_IRRIGATION = "start_irrigation"
+SERVICE_TEST_ZONE = "test_irrigation"
 SERVICE_STOP_IRRIGATION = "stop_irrigation"
 SERVICE_SET_RAIN_DELAY = "set_rain_delay"
 
@@ -23,6 +24,12 @@ SERVICE_SCHEMA_START_IRRIGATION = vol.Schema(
     {
         vol.Required(ATTR_ENTITY_ID): cv.entity_id,
         vol.Required(ATTR_DURATION): cv.positive_float,
+    }
+)
+
+SERVICE_SCHEMA_TEST_IRRIGATION = vol.Schema(
+    {
+        vol.Required(ATTR_ENTITY_ID): cv.entity_id,
     }
 )
 
@@ -88,6 +95,20 @@ def setup_platform(
         schema=SERVICE_SCHEMA_START_IRRIGATION,
     )
 
+    def test_irrigation(service: ServiceCall) -> None:
+        entity_id = service.data[ATTR_ENTITY_ID]
+
+        for device in devices:
+            if device.entity_id == entity_id:
+                device.test()
+
+    hass.services.register(
+        DOMAIN,
+        SERVICE_TEST_IRRIGATION,
+        test_irrigation,
+        schema=SERVICE_SCHEMA_TEST_IRRIGATION,
+    )
+
     def stop_irrigation(service: ServiceCall) -> None:
         entity_id = service.data[ATTR_ENTITY_ID]
 
@@ -138,11 +159,16 @@ class RainBirdSwitch(SwitchEntity):
         return self._name
 
     def turn_on(self, **kwargs):
-        """Turn the switch on."""
+        """Turn the switch on for time period."""
         if self._rainbird.irrigate_zone(
             int(self._zone),
             int(kwargs[ATTR_DURATION] if ATTR_DURATION in kwargs else self._duration),
         ):
+            self._state = True
+
+    def test(self, **kwargs):
+        """Turn the switch on."""
+        if self._rainbird.test_irrigation():
             self._state = True
 
     def turn_off(self, **kwargs):

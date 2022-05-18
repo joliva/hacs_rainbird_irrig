@@ -20,6 +20,19 @@ start_irrigation:
           max: 1440
           unit_of_measurement: "minutes"
 
+test_irrigation:
+  name: Test irrigation
+  description: Test zone
+  fields:
+    entity_id:
+      name: Entity
+      description: Name of a single zone to turn on
+      required: true
+      selector:
+        entity:
+          integration: rainbird_irrig
+          domain: switch
+
 stop_irrigation:
   name: Stop irrigation
   description: Stop the irrigation
